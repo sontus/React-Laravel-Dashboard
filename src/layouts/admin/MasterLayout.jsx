@@ -8,6 +8,8 @@ import Footer from './Footer';
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
 
+import routes from '../../routes/routes';
+import { Redirect, Route, Switch } from 'react-router-dom';
 
 const MasterLayout = () => {
     return (
@@ -22,7 +24,24 @@ const MasterLayout = () => {
                 <div id="layoutSidenav_content">
 
                     <main>
-                        Master File
+                       <Switch>
+                            {routes.map((route, idx) => {
+                                return(
+                                    route.component && (
+                                        <Route 
+                                            key={idx}
+                                            path={route.path}
+                                            exact={route.exact}
+                                            name={route.name}
+                                            render={(props) => (
+                                                <route.component{...props}/>
+                                            )}
+                                        />
+                                    )
+                                )
+                            })}
+                       </Switch>
+                       <Redirect from='/admin' to="admin/dashboard" />
                     </main>
                     {/* Footer */}
                     <Footer/>
